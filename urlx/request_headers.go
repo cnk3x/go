@@ -87,4 +87,7 @@ var (
 
 	// AcceptXML 接受XML格式
 	AcceptXML = Accept("application/xml,text/xml")
+
+	// AcceptAny 接受任意格式
+	AcceptAny = Accept("*/*")
 )
