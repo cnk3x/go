@@ -1,6 +1,9 @@
 package urlx
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 var (
 	// MacEdgeAgent Mac Edge 浏览器的 UserAgent
@@ -15,7 +18,7 @@ var (
 
 // NewBrowser 浏览器
 func NewBrowser(ctx context.Context, userAgent HeaderOption) *Request {
-	return New(ctx).ProcessWith(CharsetDecode, DecompressionBody).HeaderWith(AcceptAllEncodings, AcceptHTML, AcceptChinese, NoCache, userAgent)
+	return New(ctx).ProcessWith(CharsetDecode, DecompressionBody).HeaderWith(AcceptAllEncodings, AcceptHTML, AcceptChinese, NoCache, userAgent).TryAt(time.Millisecond*100, time.Millisecond*500, time.Millisecond*800)
 }
 
 // MacEdge Mac Edge 浏览器
