@@ -24,9 +24,7 @@ type (
 	ProcessMw = func(next Process) Process                          // 响应预处理器
 )
 
-func NoProcess(resp *http.Response, body io.ReadCloser) error {
-	return nil
-}
+var ProcessNil = func(resp *http.Response, body io.ReadCloser) error { return nil }
 
 // ProcessWith 在处理之前的预处理
 func (c *Request) ProcessWith(mws ...ProcessMw) *Request {
@@ -106,7 +104,7 @@ func (c *Request) Process(process Process) error {
 
 	defer resp.Body.Close()
 	if process == nil {
-		process = NoProcess
+		process = ProcessNil
 	}
 	for _, before := range c.beforeMw {
 		process = before(process)
@@ -183,17 +181,3 @@ func YAML(out any) Process {
 		return yaml.NewDecoder(body).Decode(out)
 	}
 }
-
-// DefaultStatusCheck 默认状态检查，如果Status不小于400则直接报错
-// func DefaultStatusCheck(next Process) Process {
-// 	return func(resp *http.Response, body io.ReadCloser) error {
-// 		if resp.StatusCode >= 400 {
-// 			data, err := io.ReadAll(resp.Body)
-// 			if err != nil {
-// 				return err
-// 			}
-// 			return fmt.Errorf("%s", resp.Status)
-// 		}
-// 		return next(resp, resp.Body)
-// 	}
-// }

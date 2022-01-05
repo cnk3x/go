@@ -39,13 +39,18 @@ func HeaderDel(keys ...string) HeaderOption {
 }
 
 // AcceptLanguage 接受语言
-func AcceptLanguage(acceptLanguage string) HeaderOption {
-	return HeaderSet(HeaderAcceptLanguage, acceptLanguage)
+func AcceptLanguage(acceptLanguages ...string) HeaderOption {
+	return HeaderSet(HeaderAcceptLanguage, strings.Join(acceptLanguages, "; "))
 }
 
 // Accept 接受格式
 func Accept(accept string) HeaderOption {
 	return HeaderSet(HeaderAccept, accept)
+}
+
+// AcceptEncoding 接受编码
+func AcceptEncoding(acceptEncodings ...string) HeaderOption {
+	return HeaderSet(HeaderAcceptEncoding, strings.Join(acceptEncodings, ", "))
 }
 
 // UserAgent 浏览器代理字符串
@@ -65,6 +70,12 @@ var (
 		headers.Set(HeaderPragma, "no-cache")
 	})
 
+	// AcceptAllEncodings 接受所有的编码格式
+	AcceptAllEncodings = AcceptEncoding("zstd", "br", "gzip", "deflate", "snappy", "s2")
+
+	// DefaultEncodings 默认接受所有的编码格式
+	DefaultEncodings = AcceptEncoding("gzip", "deflate", "br")
+
 	// AcceptChinese 接受中文
 	AcceptChinese = AcceptLanguage("zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5")
 
@@ -76,10 +87,4 @@ var (
 
 	// AcceptXML 接受XML格式
 	AcceptXML = Accept("application/xml,text/xml")
-
-	// MacEdge Mac Edge 浏览器的 UserAgent
-	MacEdge = UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36 Edg/96.0.1054.43")
-
-	// WindowsEdge Windows Edge 浏览器的 UserAgent
-	WindowsEdge = UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36 Edg/96.0.1054.43")
 )

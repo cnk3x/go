@@ -7,18 +7,6 @@ import (
 	"path/filepath"
 )
 
-type ProgressFunc = func(total, cur, speed float64)
-
-// Progress 下载进度插件
-func Progress(progress ProgressFunc) ProcessMw {
-	return func(next Process) Process {
-		return func(resp *http.Response, body io.ReadCloser) error {
-			defer body.Close()
-			return next(resp, body)
-		}
-	}
-}
-
 // Download 下载到文件
 func (c *Request) Download(fn string) (err error) {
 	return c.Process(func(resp *http.Response, body io.ReadCloser) (err error) {
@@ -41,3 +29,16 @@ func (c *Request) Download(fn string) (err error) {
 		return os.Rename(tempFn, fn)
 	})
 }
+
+// todo
+// type ProgressFunc = func(total, cur, speed float64)
+
+// // Progress 下载进度插件
+// func Progress(progress ProgressFunc) ProcessMw {
+// 	return func(next Process) Process {
+// 		return func(resp *http.Response, body io.ReadCloser) error {
+// 			defer body.Close()
+// 			return next(resp, io.NopCloser(body))
+// 		}
+// 	}
+// }

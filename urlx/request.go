@@ -12,11 +12,6 @@ func New(ctx context.Context, options ...Option) *Request {
 	return (&Request{ctx: ctx}).With(options...)
 }
 
-// Default 默认的请求器，仅处理小于400的请求
-func Default(ctx context.Context) *Request {
-	return New(ctx).ProcessWith(DecompressionBody).HeaderWith(AcceptHTML, AcceptChinese, MacEdge, NoCache)
-}
-
 // 一些特定方法的定义
 type (
 	Option       = func(*Request) error                                   // 请求选项
