@@ -8,6 +8,7 @@ require (
 	github.com/goccy/go-yaml v1.9.4
 	github.com/google/go-querystring v1.1.0
 	github.com/klauspost/compress v1.13.6
+	golang.org/x/text v0.3.7
 )
 
 require (
